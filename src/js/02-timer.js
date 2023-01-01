@@ -1,5 +1,6 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import Notiflix from 'notiflix';
 
 // получим элементы
 const myInput = document.querySelector("input[type='text']");
@@ -42,7 +43,8 @@ btnStart.disabled = true;
             btnStart.disabled = false; 
             finDate = selectedDates[0].getTime();                            
         } else{
-            window.alert("Please choose a date in the future");  
+           // window.alert("Please choose a date in the future");
+           Notiflix.Notify.failure("Please choose a date in the future"); 
             btnStart.disabled = true;    
         }  
     },
