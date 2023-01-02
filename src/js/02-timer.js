@@ -79,14 +79,16 @@ class СountdownTimer{
             if (difference < 1000) {
                 if (this.timerID !== null){
                     clearInterval(this.timerID);
+                    this.timerID = null;
                 }
                 return;
-             }             
+             }                       
             difference -= 1000;
             diffInDays = this.convertMs(difference); 
             this.onTick(diffInDays); 
         }, 1000);       
         
+        return this.timerID;
     }
     convertMs(ms) {
         // Number of milliseconds per unit of time
@@ -115,12 +117,17 @@ const updateInterface = (diffInDays) =>{
     spanSeconds.textContent = String(diffInDays.seconds).padStart(2,'0');
 };
 // процедура запуска таймера
-const start = () => {
+let intervalID = null;
+
+const start = () => {  
+    if (intervalID !== null){
+        clearInterval(intervalID);
+    }
     btnStart.disabled = true;    
     const startDate = Date.now(); 
     const finalDateUser = new Date(myInput.value);
     const timerReverse = new СountdownTimer(startDate,finalDateUser.getTime(),{onTick: updateInterface});
-    timerReverse.count();  
+    intervalID = timerReverse.count();  
 }
 // прослушка клика Старт
 btnStart.addEventListener("click", start);
